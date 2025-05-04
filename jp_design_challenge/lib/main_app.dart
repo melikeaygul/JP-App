@@ -48,13 +48,13 @@ class MainApp extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                      filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
                       child: Container(
                         width: 360,
                         height: 200,
                         decoration: BoxDecoration(
                             color: const Color.fromARGB(0, 240, 238, 238)
-                                .withOpacity(0.2),
+                                .withOpacity(0.0),
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(
                                 color: Colors.white.withOpacity(0.3))),

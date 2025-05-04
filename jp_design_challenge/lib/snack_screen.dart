@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'snackish_overlay.dart';
 
 class SnackishApp extends StatelessWidget {
   const SnackishApp({super.key});
@@ -48,7 +49,7 @@ class SnackScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          _buildCategoryChip("🛍️ All categories"),
+                          _buildCategoryChip("All categories"),
                           SizedBox(width: 8),
                           _buildCategoryChip(" Salty", highlight: true),
                           SizedBox(width: 8),
@@ -61,39 +62,58 @@ class SnackScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ListView(
-                padding: EdgeInsets.all(16),
-                children: [
-                  _buildBurgerCard(),
-                  SizedBox(height: 55),
-                  Text("We Recommend",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white)),
-                  SizedBox(height: 12),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _buildIceCreamCard(
-                            "Mogli's Cup",
-                            "Strawberry ice cream",
-                            200,
-                            "assets/grafik/cupkake_cat.png"),
-                        SizedBox(width: 12),
-                        _buildIceCreamCard("Balu's Cup", "Pistachio ice cream",
-                            130, "assets/grafik/icecream.png"),
-                        SizedBox(width: 12),
-                        _buildIceCreamCard("Balu's Cup", "Pistachio ice cream",
-                            130, "assets/grafik/icecream.png"),
-                        SizedBox(width: 12),
-                        _buildIceCreamCard("Balu's Cup", "Pistachio ice cream",
-                            130, "assets/grafik/icecream.png"),
-                      ],
-                    ),
-                  )
-                ],
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(16),
+                  children: [
+                    _buildBurgerCard(),
+                    SizedBox(height: 85),
+                    Text("We Recommend",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                    SizedBox(height: 12),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildIceCreamCard(
+                              context,
+                              "Mogli's Cup",
+                              "Strawberry ice cream",
+                              8.99,
+                              200,
+                              "assets/grafik/cupkake_cat.png"),
+                          SizedBox(width: 25),
+                          _buildIceCreamCard(
+                              context,
+                              "Balu's Cup",
+                              "Pistachio ice cream",
+                              8.99,
+                              130,
+                              "assets/grafik/icecream.png"),
+                          SizedBox(width: 25),
+                          _buildIceCreamCard(
+                              context,
+                              "Smiling David",
+                              "Ice cream stick",
+                              3.99,
+                              310,
+                              "assets/grafik/icecream_stick.png"),
+                          SizedBox(width: 25),
+                          _buildIceCreamCard(
+                              context,
+                              "Kai in a Cone",
+                              "Ice cream cone",
+                              3.99,
+                              290,
+                              "assets/grafik/icecream_cone.png"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           ),
@@ -109,7 +129,7 @@ class SnackScreen extends StatelessWidget {
         // Die Karte selbst
         Container(
           width: double.infinity,
-          height: 250,
+          height: 230,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
@@ -124,11 +144,24 @@ class SnackScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Angi's Yummy Burger",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Angi's Yummy Burger",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(Icons.star,
+                            color: const Color.fromARGB(255, 228, 75, 200),
+                            size: 16),
+                        SizedBox(width: 0.5),
+                        Text("4.8", style: TextStyle(color: Colors.white70)),
+                      ],
+                    ),
                     Text("Delish vegan burger\nthat tastes like heaven",
                         style: TextStyle(color: Colors.white, fontSize: 12)),
                     SizedBox(height: 8),
@@ -178,7 +211,7 @@ class SnackScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -193,7 +226,8 @@ class SnackScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 39),
+              SizedBox(width: 46),
+
               // Burger
               Image.asset(
                 "assets/grafik/burger.png",
@@ -207,70 +241,78 @@ class SnackScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIceCreamCard(
-      String title, String subtitle, int likes, String imageAsset) {
-    return Container(
-      width: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter, // Verlauf startet oben
-          end: Alignment.bottomCenter, // Verlauf endet unten
-          stops: [0.07, 0.61, 1.0], // Stopps für den Verlauf (Prozentsätze)
-          colors: [
-            Color.fromARGB(255, 115, 108, 108),
-            Color(0xFF908CF5),
-            Color(0xFF8C5BEA),
-          ],
-        ),
-      ),
-      padding: EdgeInsets.all(14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 170,
-            width: 150,
-            child: Image.asset(
-              imageAsset, // Dynamisches Asset, das als Parameter übergeben wird
-              fit: BoxFit.contain,
+  Widget _buildIceCreamCard(BuildContext context, title, String subtitle,
+      double price, int likes, String imageAsset) {
+    return GestureDetector(
+      onTap: () {
+        if (title == "Mogli's Cup") {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              opaque: false,
+              barrierColor: Colors.black.withOpacity(0.5),
+              pageBuilder: (_, __, ___) => SnackishOverlay(),
             ),
+          );
+        }
+      },
+      child: Container(
+        width: 200,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white.withOpacity(0.2), width: 2),
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.07, 0.61, 1.0],
+            colors: [
+              Color.fromARGB(255, 115, 108, 108),
+              Color(0xFF908CF5),
+              Color(0xFF8C5BEA),
+            ],
           ),
-          SizedBox(height: 8),
-          Text(title,
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-          Text(subtitle,
-              style: TextStyle(
-                  fontSize: 12,
-                  color: const Color.fromARGB(107, 255, 255, 255))),
-          SizedBox(height: 4),
-          SizedBox(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "₳ 8.99",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  SizedBox(width: 60),
-                  Icon(
-                    Icons.favorite_border_outlined,
-                    color: const Color.fromARGB(107, 255, 255, 255),
-                    size: 14,
-                  ),
-                  Text(
-                    " $likes",
-                    style: TextStyle(
-                        color: const Color.fromARGB(107, 255, 255, 255)),
-                  ),
-                ],
+        ),
+        padding: EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 170,
+              width: 150,
+              child: Image.asset(
+                imageAsset,
+                fit: BoxFit.contain,
               ),
             ),
-          )
-        ],
+            SizedBox(height: 15),
+            Text(title,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white)),
+            Text(subtitle,
+                style: TextStyle(
+                    fontSize: 12,
+                    color: const Color.fromARGB(107, 255, 255, 255))),
+            SizedBox(height: 4),
+            Row(
+              children: [
+                Text(
+                  "₳ $price",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Spacer(),
+                Icon(
+                  Icons.favorite_border_outlined,
+                  color: const Color.fromARGB(107, 255, 255, 255),
+                  size: 14,
+                ),
+                Text(
+                  " $likes",
+                  style: TextStyle(
+                      color: const Color.fromARGB(107, 255, 255, 255)),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -280,15 +322,15 @@ class SnackScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         color: highlight
-            ? Color(0xFFE970C4) // rosa Hintergrund für Salty
-            : Colors.white.withOpacity(0.2), // milchig für andere
+            ? Color.fromARGB(255, 230, 138, 202)
+            : Colors.white.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white24),
       ),
       child: Text(
         label,
         style: TextStyle(
-          color: highlight ? Colors.black : Colors.white, // 👈 Hier ändern
+          color: highlight ? Colors.black : Colors.white,
           fontWeight: FontWeight.w600,
         ),
       ),
